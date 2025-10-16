@@ -1,0 +1,25 @@
+/* src/global-fix.css */
+
+/* 🚨 Nuclear option to fix the collapsing viewport */
+
+/* Target the body element */
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* Allows content to stack top-down */
+  align-items: center; /* Optional: centers content horizontally */
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* Target the main application container */
+#root {
+  /* Force the root element to use the full viewport space */
+  width: 100% !important;
+  height: 100vh !important;
+  
+  /* Disable any conflicting centering/limiting rules */
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
