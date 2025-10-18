@@ -1,4 +1,4 @@
-// src/components/Navbar.jsx (HTML Nesting Fix Applied)
+// src/components/Navbar.jsx
 import { 
   Box, 
   Group, 
@@ -7,14 +7,21 @@ import {
   Burger, 
   Drawer, 
   Stack, 
-  Divider 
+  Divider,
+  useMantineTheme,
+  Image // <-- ADDED: Import Image component
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link, useLocation } from 'react-router-dom';
+import { IconQrcode } from '@tabler/icons-react'; 
+
+// MODIFIED: Using the requested import path
+import CULSJA_Logo from '../img/CULSJA_logo.png'; 
 
 export default function Navbar() {
   const [opened, { toggle, close }] = useDisclosure(false); 
   const location = useLocation(); 
+  const theme = useMantineTheme(); 
 
   const isActive = (path) => {
     if (path === '/') return location.pathname === '/';
@@ -22,10 +29,12 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { label: "Home", path: "/", isCta: false },
-    { label: "About", path: "/about", isCta: false },
-    { label: "Services", path: "/services", isCta: false },
-    { label: "Contact", path: "/contact", isCta: true },
+    { label: "Home", path: "/", isCta: false, icon: null },
+    { label: "About", path: "/about", isCta: false, icon: null },
+    { label: "Services", path: "/services", isCta: false, icon: null },
+    // MODIFIED: Added isIconOnly flag for desktop display
+    { label: "Share", path: "/share", isCta: false, icon: IconQrcode, isIconOnly: true }, 
+    { label: "Contact", path: "/contact", isCta: true, icon: null },
   ];
 
   const renderLinks = (isMobile = false) => (
@@ -33,17 +42,18 @@ export default function Navbar() {
       const active = isActive(link.path);
       
       let variant = 'subtle';
-      let color = 'dark.7';
+      let color = 'primary.7'; 
 
       if (link.isCta) {
-        // Contact button styling
         variant = active ? 'filled' : 'light';
-        color = 'yellow.5'; 
+        color = 'yellow'; 
       } else {
-        // Standard page highlighting
         variant = active ? 'filled' : 'subtle';
         color = active ? 'primary.6' : 'dark.7';
       }
+      
+      const content = (isMobile || !link.isIconOnly) ? link.label : <link.icon size={20} />;
+      const styleProps = (link.isIconOnly && !isMobile) ? { px: 'sm' } : {}; // Make icon button smaller
       
       return (
         <Button 
@@ -55,8 +65,9 @@ export default function Navbar() {
           fullWidth={isMobile}
           onClick={close} 
           size={isMobile ? "lg" : "md"}
+          {...styleProps} // Apply styleProps for desktop icon buttons
         >
-          {link.label}
+          {content}
         </Button>
       );
     })
@@ -65,8 +76,7 @@ export default function Navbar() {
   return (
     <Box 
       w="100%" 
-      h="100%" 
-      bg="gray.0" 
+      bg={theme.colors.primary[0]} 
       px="xl" 
       py="sm"
       style={{
@@ -75,19 +85,28 @@ export default function Navbar() {
         alignItems: 'center',
       }}
     >
-      {/* 1. Logo */}
+      {/* 1. Logo/Business Name (MODIFIED: Logo size increased) */}
       <Button 
         component={Link} 
         to="/"          
         variant="subtle" 
-        c="primary.6"    
+        c="primary.7" 
         p={0}            
         style={{ height: 'auto' }} 
         onClick={close} 
       >
-        <Title order={3}>
-          Wayne’s Family Business
-        </Title>
+        <Group gap="sm" wrap="nowrap"> {/* Group the Image and Title */}
+            <Image
+                src={CULSJA_Logo} // Use the imported logo image
+                alt="CULSJA Commercial Logo"
+                h={80} // <-- INCREASED: 200% larger than the previous 40px
+                w="auto" 
+                fit="contain"
+            />
+            <Title order={3}>
+              CULSJA Commercial
+            </Title>
+        </Group>
       </Button>
       
       {/* 2. Desktop Navigation */}
@@ -103,9 +122,7 @@ export default function Navbar() {
       <Drawer
         opened={opened}
         onClose={close}
-        // 🚨 FIX: Force Title to render as a span using component="span"
-        // This avoids the illegal <h2><h4> nesting while preserving the style.
-        title={<Title order={4} component="span" c="primary.7">Navigation</Title>} 
+        title={<Title order={4} component="span" c="primary.7">CULSJA Navigation</Title>} 
         padding="md"
         size="xs" 
       >

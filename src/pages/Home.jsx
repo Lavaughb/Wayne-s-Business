@@ -10,108 +10,148 @@ import {
   useMantineTheme, 
   Box,
   ThemeIcon,
-  Group 
+  Group,
+  Image, 
 } from '@mantine/core';
-import { Carousel } from '@mantine/carousel';
 import { Link } from 'react-router-dom';
-import { IconHandClick, IconUserCheck, IconHomeCheck, IconTools, IconPhoneCall } from '@tabler/icons-react'; 
+import { 
+  IconShieldLock, 
+  IconGps, 
+  IconTools, 
+  IconQuote,
+  IconRoute, 
+  IconBolt, 
+  IconWaterpolo, 
+} from '@tabler/icons-react'; 
+
+// RE-ADDED: Logo import for branding consistency (from previous steps)
+import CULSJA_Logo from '../img/CULSJA_logo.png'; 
+// ADDED: New image import for the equipment showcase
+import DrillWorker from '../img/DrillWorker.png';
 
 export default function Home() {
   const theme = useMantineTheme();
   
   // Define colors from your theme for cleaner use
-  const primaryColor = theme.colors.primary[6]; // Dark Blue
-  const accentColor = theme.colors.yellow[5];  // Middle Yellow
-  const darkBlue = theme.colors.primary[6];
+  const primaryColor = theme.colors.primary[7]; // Dark Earth Brown
+  const accentYellow = theme.colors.yellow[6];  // Accent Yellow
+  const accentGreen = theme.colors.green[6];    // Safety Green
 
   const valueProps = [
-    { icon: IconHandClick, title: "Simple Process", description: "Easy booking and clear communication from start to finish.", color: 'primary' },
-    { icon: IconUserCheck, title: "Local Trust", description: "Generations of service in the community. We treat your home like our own.", color: 'yellow' },
-    { icon: IconHomeCheck, title: "Guaranteed Quality", description: "Insured and experienced professionals ensuring the job is done right.", color: 'red' },
+    { icon: IconGps, title: "Precision Locating (GPR)", description: "Leveraging Ground Penetrating Radar (GPR) and advanced technology for accurate subsurface utility mapping.", color: 'yellow' },
+    { icon: IconTools, title: "Horizontal Directional Drilling (HDD)", description: "Efficient and minimally invasive utility installation using specialized Ditch Witch and RD drill equipment.", color: 'primary' },
+    { icon: IconShieldLock, title: "Safety Certified & Insured", description: "Our operations meet all Central Florida utility standards, ensuring maximum site and crew safety.", color: 'green' },
   ];
 
+  // Service highlights data 
   const serviceHighlights = [
-    { title: "Home Repairs", description: "Fixing faucets, drywall, and general maintenance for peace of mind." },
-    { title: "Small Renovations", description: "From kitchen updates to bathroom refreshes, we manage the small projects." },
-    { title: "Appliance Installs", description: "Professional setup of new washers, dryers, and essential home appliances." },
+    { icon: IconRoute, title: "Fiber & Data Conduit Installation", description: "Expert installation of underground fiber optic and communications infrastructure." },
+    { icon: IconBolt, title: "6-inch Power Conduits", description: "Safe and compliant burial and connection of high-capacity electrical conduits." },
+    { icon: IconWaterpolo, title: "Water and Utility Relocation", description: "Professional locating and installation services for critical water and gas lines." },
   ];
+
+  // Component to render the service cards with stacked icon/title layout
+  const ServiceHighlightCard = ({ icon: Icon, title, description }) => (
+    <Card shadow="md" padding="xl" radius="md" bg="white" withBorder>
+        {/* Icon is placed first and centered */}
+        <Box ta="center">
+            <ThemeIcon size="lg" radius="md" color={accentGreen} mx="auto" mb="xs">
+                <Icon style={{ width: 24, height: 24 }} /> 
+            </ThemeIcon>
+        </Box>
+        {/* Title is placed below the icon and centered */}
+        <Title order={4} c={primaryColor} ta="center" mb="xs">{title}</Title>
+        {/* Description follows */}
+        <Text size="sm" c="dimmed" ta="center">{description}</Text>
+    </Card>
+  );
 
   return (
     <> 
-      {/* 1. Hero Carousel: GRADIENT */}
-      <Carousel 
-        height={500} 
-        slideSize="100%" 
-        align="start" 
-        loop
-        withIndicators 
+      {/* 1. Hero Section: Image Background (Drilling Perspective Placeholder) */}
+      <Box 
+        py={150} 
+        style={{ 
+          position: 'relative', 
+          textAlign: 'center', 
+          // Placeholder image for drilling - Replace this URL with a real image later
+          backgroundImage: `url('placeholder_drilling_image.jpg')`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center',
+          minHeight: 500
+        }}
       >
-        {/* Slide 1: Primary Service Introduction with Gradient */}
-        <Carousel.Slide 
-            style={{ 
-                background: `linear-gradient(135deg, ${primaryColor} 0%, ${theme.colors.primary[4]} 100%)`, 
-                color: 'white' 
-            }}
-        > 
-          <Container size="lg" h="100%">
-            <Stack 
-              justify="center" 
-              align="center" 
-              h="100%" 
-              p="xl" 
-              ta="center"
+        <Box 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(76, 49, 28, 0.7)', // Dark semi-transparent brown overlay
+            zIndex: 1,
+          }}
+        />
+        
+        <Container size="lg" style={{ position: 'relative', zIndex: 2 }}>
+          <Title 
+            order={1} 
+            c="white" 
+            fw={900} 
+            mb="md"
+            style={{ fontSize: '3rem', textShadow: '0 3px 6px rgba(0,0,0,0.8)' }}
+          >
+            Underground Utility Expertise for Central Florida.
+          </Title>
+          <Text size="xl" c="primary.0" mb="xl" style={{ fontWeight: 500 }}>
+            CULSJA Commercial delivers precision Horizontal Directional Drilling (HDD) and comprehensive utility locating services for municipal and commercial projects.
+          </Text>
+          
+          <Group justify="center" gap="lg">
+            <Button 
+              component={Link} 
+              to="/contact" 
+              size="xl" 
+              color={accentYellow} // Yellow CTA
+              leftSection={<IconQuote size={24} />}
             >
-              <Title order={1} c="white" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
-                Quality Services, Personal Touch
-              </Title>
-              <Text size="xl" maw={600} c="primary.0" style={{ fontWeight: 500 }}>
-                Wayne's Family Business provides reliable, top-quality home repair and renovation services, backed by years of family trust.
-              </Text>
-              {/* 🚨 FIX: Responsive Group ensures buttons stack on mobile */}
-              <Group 
-                  mt="xl" 
-                  gap="md" 
-                  justify="center" 
-                  direction={{ base: 'column', sm: 'row' }} 
-              >
-                <Button component={Link} to="/contact" size="xl" color={accentColor} shadow="lg">
-                  Get a Free Estimate
-                </Button>
-                <Button component={Link} to="/services" size="xl" variant="white" color="white" c={primaryColor}>
-                  View All Services
-                </Button>
-              </Group>
-            </Stack>
-          </Container>
-        </Carousel.Slide>
+              Request a Project Quote
+            </Button>
+            <Button 
+              component={Link} 
+              to="/services" 
+              size="xl" 
+              variant="white"
+              c={primaryColor} // Dark brown text on white
+            >
+              View Our Capabilities
+            </Button>
+          </Group>
+        </Container>
+      </Box>
 
-        {/* Slide 2: Secondary CTA/Message */}
-        <Carousel.Slide bg={theme.colors.gray[1]}> 
-            <Container size="lg" h="100%">
-                <Stack 
-                    justify="center" 
-                    align="center" 
-                    h="100%" 
-                    p="xl" 
-                    ta="center"
-                >
-                    <Title order={2} c="dark.7">We Handle the Home, You Enjoy the Family</Title>
-                    <Text size="xl" maw={600} c="dimmed">
-                        Don't let home maintenance stress you out. We offer seasonal check-ups and quick fixes to keep your property running smoothly.
-                    </Text>
-                    <Button component={Link} to="/about" size="lg" color="primary.7" mt="lg">
-                        Meet Our Team
-                    </Button>
-                </Stack>
-            </Container>
-        </Carousel.Slide>
-      </Carousel>
-
-      {/* 2. Value Proposition Grid: OFF-WHITE BACKGROUND */}
-      <Box bg="gray.0">
-        <Container size="xl" py={80}>
-          <Title order={2} ta="center" mb={60} c="primary.7">Why Choose Wayne's Family Business?</Title>
-          <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="xl">
+      {/* 2. Value Proposition Grid: Earth Brown Background (Why Choose CULSJA) */}
+      <Box bg={theme.colors.primary[0]}> {/* Lightest Brown Background */}
+        <Container size="lg" py={80}>
+          {/* LOGO INTEGRATION: Uses the 75x75 size */}
+          <Group justify="center" align="center" mb={60}>
+            <Image
+                src={CULSJA_Logo}
+                alt="CULSJA Logo"
+                h={75} // 150% increase for visual impact
+                w={75} 
+                fit="contain"
+            />
+            <Title order={2} ta="center" c={primaryColor}>
+                Why Choose CULSJA Commercial?
+            </Title>
+          </Group>
+            
+          <SimpleGrid 
+            cols={{ base: 1, md: 3 }} 
+            spacing="xl"
+            verticalSpacing="xl"
+          >
             {valueProps.map((prop) => (
               <Card 
                   key={prop.title} 
@@ -120,15 +160,7 @@ export default function Home() {
                   radius="md" 
                   withBorder 
                   ta="center"
-                  sx={{
-                      boxShadow: `0 8px 15px -5px ${theme.colors[prop.color][2]}`, 
-                      transition: 'transform 0.2s ease-in-out',
-                      cursor: 'pointer',
-                      '&:hover': { 
-                          transform: 'translateY(-8px)', 
-                          boxShadow: `0 12px 20px -5px ${theme.colors[prop.color][4]}`, 
-                      }
-                  }}
+                  bg="white" // White card background
               >
                 <ThemeIcon size="xl" radius="xl" color={prop.color} mx="auto" mb="md">
                   <prop.icon style={{ width: 28, height: 28 }} />
@@ -141,51 +173,72 @@ export default function Home() {
         </Container>
       </Box>
       
-      {/* 3. Highlighted Services Section: SLIGHTLY DARKER GREY STRIPE */}
-      <Box bg="gray.1" py={80}>
+      {/* 3. Highlighted Services (Vertical Icon/Title Layout Applied) */}
+      <Box py={80} bg="gray.1">
         <Container size="lg">
-            <Title order={2} ta="center" mb={60} c="primary.7">Our Most Popular Services</Title>
-            <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="xl">
-                {serviceHighlights.map((service) => (
-                    <Card key={service.title} padding="xl" radius="md" bg="white" shadow="sm">
-                        <Group>
-                            <ThemeIcon size="lg" radius="md" color="primary.6">
-                                {/* IconTools used here */}
-                                <IconTools style={{ width: 20, height: 20 }} /> 
-                            </ThemeIcon>
-                            <Title order={4} c="primary.6">{service.title}</Title>
-                        </Group>
-                        <Text size="sm" c="dimmed" mt="md">{service.description}</Text>
-                    </Card>
+            <Title order={2} ta="center" mb={60} c={primaryColor}>
+                Core Utility & Infrastructure Services
+            </Title>
+            <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl">
+                {serviceHighlights.map((service, index) => (
+                    <ServiceHighlightCard 
+                        key={index} 
+                        {...service} 
+                    />
                 ))}
             </SimpleGrid>
             <Box ta="center" mt={60}>
-                <Button component={Link} to="/services" size="lg" variant="filled" color="primary.7">
-                    Explore All 6 Services
+                <Button component={Link} to="/services" size="lg" variant="filled" color={primaryColor}>
+                    Explore All Capabilities
                 </Button>
             </Box>
         </Container>
       </Box>
 
-      {/* 4. Final Call to Action Banner */}
-      <Box bg={darkBlue} py={80} ta="center">
+      {/* 4. Equipment Showcase (Updated with new image and positioning) */}
+      <Container size="lg" py={80}>
+        <Title order={2} ta="center" mb={60} c={primaryColor}>
+            Our Equipment: Ditch Witch, RD Drills, and More
+        </Title>
+        <Card shadow="md" padding="xl" radius="md" withBorder>
+            <Image
+                src={DrillWorker}
+                height={400} 
+                alt="Black man operating a Ditch Witch directional drill on a utility site."
+                // ADDED: radius for rounded corners
+                radius="md" 
+                style={{ 
+                    objectFit: 'cover',
+                    // MODIFIED: Focuses the image positioning on the top (the operator's face)
+                    objectPosition: 'top' 
+                }}
+            />
+            {/* MODIFIED: The description is confirmed to have no bold markdown (**) */}
+            <Text ta="center" c="dimmed" mt="lg" style={{ fontSize: '1.1em', lineHeight: 1.6 }}>
+                We commit to minimizing site impact and maximizing efficiency by utilizing a diverse fleet of industry-leading drilling, locating, and excavation equipment. This includes specialized Ditch Witch and RD Drill units for various soil conditions and pipe diameters, along with Ground Penetrating Radar (GPR) for unmatched locating accuracy. We maintain and leverage plenty of other essential forms of utility equipment to manage every phase of the installation process, ensuring project success from bore design to site cleanup.
+            </Text>
+        </Card>
+      </Container>
+
+
+      {/* 5. Final Call to Action Banner */}
+      <Box bg={primaryColor} py={80} ta="center">
         <Container size="md">
-          <Title order={2} c="white" mb="md">Ready to Start Your Project?</Title>
+          <Title order={2} c="white" mb="md">Need a Utility Partner in Central Florida?</Title>
           <Text size="lg" c="primary.0" mb="xl">
-            Click below for a free, no-obligation estimate from our family to yours.
+            Leverage our 15+ years of industry experience. Contact us today for a precise project estimate.
           </Text>
           <Button 
               component={Link} 
               to="/contact" 
               size="xl" 
-              color="yellow.5" 
-              leftSection={<IconPhoneCall size={24} />}
+              color={accentYellow} 
+              leftSection={<IconQuote size={24} />}
           >
               Request an Estimate
           </Button>
         </Container>
       </Box>
-
     </>
   );
 }

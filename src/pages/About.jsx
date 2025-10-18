@@ -1,3 +1,4 @@
+// src/pages/About.jsx
 import { 
   Stack, 
   Title, 
@@ -6,81 +7,114 @@ import {
   Timeline, 
   Box, 
   useMantineTheme,
-  Card,
-  SimpleGrid,
-  Avatar,
-  Badge,
-  Group 
+  Badge, // Badge is imported but not used for the mobile fix
+  // ADDED: Import Image and Group for logo display
+  Image,
+  Group,
 } from '@mantine/core';
 import { 
-  IconHomeCheck, 
-  IconBuildingCottage, 
-  IconUsers, 
-  IconHammer, 
-  IconTrophy 
+  IconTrophy,
+  IconGps, 
+  IconTools, // Used for HDD/Installation
+  IconBuildingBridge, // Used for infrastructure/industry
 } from '@tabler/icons-react';
 
-// Sample data for the timeline
-const timelineData = [
-  { 
-    title: 'Founded by Wayne Sr.', 
-    date: '1998', 
-    description: 'Wayne Sr. started the business with a single truck and a commitment to honest, quality work for neighbors.', 
-    icon: IconBuildingCottage 
-  },
-  { 
-    title: 'Expanded Service Area', 
-    date: '2005', 
-    description: 'The business grew through word-of-mouth, allowing us to hire our first employees and expand our service coverage.', 
-    icon: IconUsers 
-  },
-  { 
-    title: 'Wayne Jr. Joins the Team', 
-    date: '2015', 
-    description: 'Wayne Jr. brought new skills and a fresh vision, incorporating modern techniques while maintaining family values.', 
-    icon: IconHammer 
-  },
-  { 
-    title: 'Recognized for Excellence', 
-    date: 'Present', 
-    description: 'Today, we continue the legacy of service, focusing on reliable repairs and building lasting customer relationships.', 
-    icon: IconTrophy 
-  },
-];
-
-// Sample data for team members
-const teamData = [
-    { name: 'Wayne Sr.', role: 'Founder & Senior Technician', bio: 'The man who started it all. Years of experience and an unwavering commitment to quality.', avatar: null },
-    { name: 'Wayne Jr.', role: 'Lead Technician & Operations', bio: 'Specializing in small renovations and ensuring every job meets our high standard of excellence.', avatar: null },
-    { name: 'Sarah M.', role: 'Office Manager & Scheduling', bio: 'The friendly voice who handles all scheduling and ensures transparent communication.', avatar: null },
-];
+// ADDED: Import the logo using the correct path and name
+import CULSJA_Logo from '../img/CULSJA_logo.png'; 
 
 export default function About() {
   const theme = useMantineTheme();
+  const primaryColor = theme.colors.primary[7];
+  
+  // Sample data for the timeline (Consistent with B2B Utility Service History)
+  const timelineData = [
+    { 
+      title: 'Owner Enters Utility Industry', 
+      date: '2008', 
+      description: 'The owner begins working with large, central Florida utility companies and specialized locating services, gaining deep industry knowledge.', 
+      icon: IconBuildingBridge // Represents infrastructure
+    },
+    { 
+      title: 'Specialized Expertise Developed', 
+      date: '2015', 
+      description: 'Extensive hands-on experience with Horizontal Directional Drilling (HDD), GPR, and complex utility installations.', 
+      icon: IconTools 
+    },
+    { 
+      title: 'CULSJA Commercial Established', 
+      date: '2021', 
+      description: 'The family business is founded to provide specialized, reliable, and independent utility locating and installation services.', 
+      icon: IconTools // Replaced IconDrill with IconTools for stability
+    },
+    { 
+      title: 'Serving Central Florida Utilities', 
+      date: 'Present', 
+      description: 'Today, we are a trusted partner for commercial and municipal projects, focused on safety and precision in every bore.', 
+      icon: IconTrophy 
+    },
+  ];
   
   return (
     <> 
-      {/* 1. Hero / Mission Section (Light Gray Background) */}
-      <Box bg="gray.0" py={80}>
+      {/* 1. Hero / Mission Section (Light Earth Tone Background) */}
+      <Box bg={theme.colors.primary[0]} py={80}>
         <Container size="md">
           <Stack align="center" gap="xl" ta="center">
-            <Title order={1} c="primary.7">Our Family Story & Mission</Title>
+            
+            {/* LOGO RE-INTEGRATION: 200% increase (150x150) */}
+            <Group justify="center" align="center" ta="center" mb="lg">
+                <Image
+                    src={CULSJA_Logo}
+                    alt="CULSJA Logo"
+                    h={150} // 200% increase
+                    w={150} 
+                    fit="contain"
+                />
+            </Group>
+            
+            <Title order={1} c={primaryColor}>Precision Underground Utility Solutions</Title>
+            
             <Text size="lg" maw={700} c="dark.7">
-              **Wayne's Family Business** is built on the foundation of **trust, quality, and community**. For over two decades, our family has dedicated itself to providing homeowners with dependable, high-quality maintenance and renovation services. We believe in treating your home with the same care we give our own.
+              CULSJA Commercial is a family-founded business specializing in Underground Utility Locating and Trenchless Installation. Founded in 2021, our leadership brings over 15 years of invaluable experience gained while working with major utility companies across Central Florida. We are your partner for reliable infrastructure growth.
             </Text>
-            <Badge size="lg" color="yellow.5" variant="light" leftSection={<IconHomeCheck size={16} />}>
-                Built on Trust Since 1998
-            </Badge>
+            
+            {/* NEW MOBILE-FRIENDLY REPLACEMENT FOR BADGE */}
+            <Box
+                // Mimics the Badge color scheme (green.5 light variant)
+                bg={theme.colors.green[0]} 
+                c={theme.colors.green[7]} 
+                py="xs" 
+                px="md" 
+                style={{ 
+                    borderRadius: theme.radius.xl, 
+                    border: `1px solid ${theme.colors.green[3]}`, // Simulates the badge border
+                    // Set both margins to auto so the element is centered, 
+                    // and use max-width to allow the content to wrap
+                    maxWidth: '80%', // Allow it to shrink on small screens
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    boxSizing: 'border-box'
+                }}
+            >
+                <Group gap="xs" wrap="nowrap" align="center">
+                    <IconGps size={16} />
+                    {/* The Text component inside the Group is the key to wrapping */}
+                    <Text size="sm" fw={700} style={{ whiteSpace: 'normal', lineHeight: 1.2 }}>
+                        15+ Years of Central Florida Utility Expertise
+                    </Text>
+                </Group>
+            </Box>
+
           </Stack>
         </Container>
       </Box>
 
-      {/* 2. Company Timeline (Alternating Background for Visual Break) */}
+      {/* 2. Company Timeline (Kept Short and Sweet) */}
       <Box bg="gray.1" py={100}>
         <Container size="lg">
-          <Title order={2} ta="center" mb={60} c="primary.7">Our History and Milestones</Title>
+          <Title order={2} ta="center" mb={60} c={primaryColor}>Our Timeline and Expertise</Title>
           <Timeline 
-            active={timelineData.length - 1} // Makes the current step the final one
+            active={timelineData.length - 1} 
             bulletSize={30} 
             lineWidth={2}
           >
@@ -89,42 +123,13 @@ export default function About() {
                 key={index}
                 title={<Title order={4} c="primary.6">{item.title}</Title>}
                 bullet={<item.icon size={16} />}
-                lineVariant={index === timelineData.length - 1 ? 'solid' : 'dashed'} // Last line is solid
+                lineVariant={index === timelineData.length - 1 ? 'solid' : 'dashed'} 
               >
                 <Text c="dimmed" size="sm" mt={4}>{item.date}</Text>
                 <Text size="md" mt={4}>{item.description}</Text>
               </Timeline.Item>
             ))}
           </Timeline>
-        </Container>
-      </Box>
-
-      {/* 3. Meet the Team Section (Return to Light Gray Background) */}
-      <Box bg="gray.0" py={100}>
-        <Container size="xl">
-          <Title order={2} ta="center" mb={60} c="primary.7">Meet the Family Behind the Business</Title>
-          <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="xl">
-            {teamData.map((member) => (
-                <Card 
-                    key={member.name} 
-                    shadow="sm" 
-                    padding="xl" 
-                    radius="md" 
-                    withBorder
-                    ta="center"
-                >
-                    <Stack align="center">
-                        {/* Placeholder for real team images */}
-                        <Avatar size={100} radius="xl" color="yellow.6" src={member.avatar}>
-                            {member.name.split(' ').map(n => n[0]).join('')}
-                        </Avatar>
-                        <Title order={3} c="dark.7">{member.name}</Title>
-                        <Badge size="lg" color="primary.5">{member.role}</Badge>
-                        <Text size="sm" c="dimmed">{member.bio}</Text>
-                    </Stack>
-                </Card>
-            ))}
-          </SimpleGrid>
         </Container>
       </Box>
     </>
