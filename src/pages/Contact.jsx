@@ -63,7 +63,7 @@ export default function Contact() {
         
         {/* MODIFIED: Updated Intro Text */}
         <Text size="lg" ta="center" c="dimmed" maw={600}>
-          Ready to discuss your utility, drilling, or locating project? Reach out directly via the information below. Once a message is submitted through our form, someone from our team will reach out to you directly to begin the quote process.
+          Would you be ready to discuss your utility, drilling, or locating project? Reach out directly via the information below. Once a message is submitted through our form, a member of our team will contact you directly to initiate the quote process.
         </Text>
 
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl" w="100%" mt="lg">
@@ -79,7 +79,7 @@ export default function Contact() {
                         </ThemeIcon>
                         <Stack gap={0}>
                             <Text fw={700}>Project Email</Text>
-                            <Anchor href="mailto:Culsja@gmail.com" target="_blank" c="primary.6">Culsja@gmail.com</Anchor>
+                            <Anchor href="mailto:Culsja@gmail.com" target="_blank" c="primary.6">CULSJA@gmail.com</Anchor>
                         </Stack>
                     </Group>
 
@@ -89,7 +89,7 @@ export default function Contact() {
                         </ThemeIcon>
                         <Stack gap={0}>
                             <Text fw={700}>Company Phone Number</Text>
-                            <Anchor href="tel:+18132049009" c="primary.6">(813) 204-9009</Anchor>
+                            <Anchor href="tel:+18632049009" c="primary.6">(863) 204-9009</Anchor>
                         </Stack>
                     </Group>
                     
